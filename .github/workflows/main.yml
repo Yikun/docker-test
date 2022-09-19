@@ -36,4 +36,4 @@ jobs:
     
     - name: print
       run: |
-        echo ${{ toJSON(steps.meta.outputs.tags) }}
+        echo ${{ toJSON(steps.meta) }}
