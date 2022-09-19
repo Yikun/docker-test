@@ -36,4 +36,4 @@ jobs:
     
     - name: print
       run: |
-        echo ${{ steps.meta.outputs }}
+        echo ${{ toJSON(steps.meta.outputs) }}
