@@ -1,0 +1,39 @@
+name: Docker Test
+
+# This job only tricker if requested in github.
+on:
+  pull_request:
+    branches:
+      - "**"
+
+jobs:
+  build-test-image:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - path: 3.3.0/scala2.12-java11-python3-ubuntu
+            tags: 3.3.0-scala2.12-java11-python3-ubuntu, 3.3.0-python3, python3, 3.3.0, latest
+          - path: 3.3.0/scala2.12-java11-r-ubuntu
+            tags: 3.3.0-scala2.12-java11-r-ubuntu, scala2.12-java11-r-ubuntu, 3.3.0-r, r
+          - path: 3.3.0/scala2.12-java11-ubuntu
+            tags: 3.3.0-scala2.12-java11-ubuntu, 3.3.0-scala, scala
+          - path: 3.3.0/scala2.12-java11-python3-r-ubuntu
+            tags: 3.3.0-scala2.12-java11-python3-r-ubuntu
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # https://github.com/docker/metadata-action
+    - name: Configure Docker metadata
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        images: yikunkero/spark
+        tags: |
+          3.3.0-scala2.12-java11-python3-ubuntu, 3.3.0-python3, python3, 3.3.0, latest
+    
+    - name: print
+      run: |
+        echo ${{ toJSON(steps.meta) }}
